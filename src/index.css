@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night: #15121c;
+
+  --animate-float-note: float-note 3s ease-out infinite;
+  --animate-spin-record: spin-record 4s linear infinite;
+
+  @keyframes spin-record {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes float-note {
+    0% {
+      transform: translate(0, 0) rotate(-12deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(14px, -40px) rotate(12deg);
+      opacity: 0;
+    }
+  }
+}
+
+@theme inline {
+  --color-glow: var(--scene-light);
+}
+
+/* A registered variable can be animated: the accent fades along with the scene when the palette changes */
+@property --scene-light { syntax: "<color>"; inherits: true; initial-value: #ffb46e; }
+
+.scene {
+  transition: --scene-light 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    transition: none;
+  }
+}
+
+body {
+  @apply bg-night text-stone-200 antialiased;
+}
