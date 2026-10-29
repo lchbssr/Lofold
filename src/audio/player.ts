@@ -100,8 +100,8 @@ export function load(song: Song, onEnd: () => void) {
 
   parts = scheduleSong(context, song, band)
   endEvent = transport.scheduleOnce((time) => {
-    // Called in sync with the screen, so the interface can update safely
-    context.draw.schedule(onEnd, time)
+    // Not context.draw: it waits for an animation frame, which never comes in a background tab, and drops late events
+    context.setTimeout(onEnd, Math.max(0, time - context.now()))
   }, stepsToTicks(song.bars * STEPS_PER_BAR))
 }
 
